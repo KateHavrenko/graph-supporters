@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+  <!-- <link rel="manifest" href="site.webmanifest"> -->
+  <title>Supporters UA</title>
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script type="text/javascript">
+    google.charts.load('current', { 'packages': ['corechart'] });
+    google.charts.setOnLoadCallback(drawDeliveriesChart);
+
+    function drawDeliveriesChart() {
+      var queryString = encodeURIComponent('SELECT A, B LIMIT 20');
+      var query = new google.visualization.Query(
+        'https://docs.google.com/spreadsheets/d/10dDxCrIBO3qqlehe7AiQ0YjqQAKAM8jNGF-UhsGzOIU/gviz/tq?gid=0&headers=1&tq=' + queryString);
+      query.send(handleDeliveriesQueryResponse);
+    }
+
+    function handleDeliveriesQueryResponse(response) {
+      if (response.isError()) {
+        alert('Error in query: ' + response.getMessage() + ' ' + response.getDetailedMessage());
+        return;
+      }
+      var data = response.getDataTable();
+      var chart = new google.visualization.BarChart(document.getElementById('deliveries_chart_div'));
+      var options = {
+        height: 25,
+        animation: {
+          startup: true,
+          duration: 1000,
+          easing: 'out'
+        },
+        legend: 'none',
+        hAxis: {
+          textPosition: 'none',
+          gridlines: {
+            count: 0
+          }
+        }
+      };
+      chart.draw(data, options);
+    }
+  </script>
+</head>
+
+<body>
+  <div id="deliveries_chart_div" style="width: 100%; height: 800px;"></div>
+</body>
+
+</html>
