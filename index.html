@@ -27,7 +27,32 @@
       var data = response.getDataTable();
       var chart = new google.visualization.BarChart(document.getElementById('deliveries_chart_div'));
       var options = {
-        height: 450,
+        gantt: {
+          criticalPathEnabled: false, // Critical path arrows will be the same as other arrows.
+          labelStyle: {
+            fontName: 'Open Sans',
+            fontSize: 14,
+            color: 'white'
+          },
+          barCornerRadius: 2,
+          backgroundColor: {
+            fill: 'transparent',
+          },
+          innerGridHorizLine: {
+            stroke: '#ddd',
+            strokeWidth: 0,
+          },
+          innerGridTrack: {
+            fill: 'transparent'
+          },
+          innerGridDarkTrack: {
+            fill: 'transparent'
+          },
+          percentEnabled: true,
+          shadowEnabled: true,
+          shadowColor: 'white',
+          shadowOffset: 2,
+        },
         animation: {
           startup: true,
           duration: 1000,
