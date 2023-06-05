@@ -8,6 +8,13 @@
   <!-- <link rel="manifest" href="site.webmanifest"> -->
   <title>Supporters UA</title>
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <style>
+    /* Custom CSS styles */
+    #deliveries_chart_div rect {
+      rx: 3px; 
+      ry: 3px; 
+    }
+  </style>
   <script type="text/javascript">
     google.charts.load('current', { 'packages': ['corechart'] });
     google.charts.setOnLoadCallback(drawDeliveriesChart);
@@ -24,20 +31,7 @@
         alert('Error in query: ' + response.getMessage() + ' ' + response.getDetailedMessage());
         return;
       }
-      
       var data = response.getDataTable();
-
-      var styleColumn = {
-      id: 'style',
-      label: 'Style',
-      type: 'string',
-      role: 'style',
-    };
-
-    // Set the height value for each row
-    for (var i = 0; i < data.getNumberOfRows(); i++) {
-      data.setValue(i, styleColumn, 'height: 50px;'); // Change the height of each row/bar
-    }
 
       var chart = new google.visualization.BarChart(document.getElementById('deliveries_chart_div'));
       var options = {
@@ -51,7 +45,28 @@
           textPosition: 'none',
           gridlines: {
             count: 0
-          }
+          },
+          // baselineColor: 'none', // Set axis line color to none
+          // baselineWidth: 0 // Set axis line width to 0
+        },
+        legend: { position: 'none' },
+        bars: 'horizontal', // Required for Material Bar Charts.
+        axes: {
+          baselineColor: 'none', // Set axis line color to none
+          baselineWidth: 0 // Set axis line width to 0
+        },
+        bar: { groupWidth: "85%" },
+        series: {
+          0: { color: '#3C88F4' } 
+        },
+        annotations: {
+          textStyle: {
+            color: '#ffffff', // Label text color
+            fontName: 'Arial',
+            fontSize: 12
+          },
+          annotationText: 'value', // Display the value of each data point
+          annotationRole: 'annotation' // Use the 'annotation' role for displaying values
         }
       };
       chart.draw(data, options);
@@ -60,7 +75,7 @@
 </head>
 
 <body>
-  <div id="deliveries_chart_div" style="width: 100%; height: 800px;"></div>
+  <div id="deliveries_chart_div" style="width: 100%; height: 1000px;"></div>
 </body>
 
 </html>
