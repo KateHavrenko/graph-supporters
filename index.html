@@ -24,7 +24,21 @@
         alert('Error in query: ' + response.getMessage() + ' ' + response.getDetailedMessage());
         return;
       }
+      
       var data = response.getDataTable();
+
+      var styleColumn = {
+      id: 'style',
+      label: 'Style',
+      type: 'string',
+      role: 'style',
+    };
+
+    // Set the height value for each row
+    for (var i = 0; i < data.getNumberOfRows(); i++) {
+      data.setValue(i, styleColumn, 'height: 50px;'); // Change the height of each row/bar
+    }
+
       var chart = new google.visualization.BarChart(document.getElementById('deliveries_chart_div'));
       var options = {
         animation: {
@@ -33,12 +47,12 @@
           easing: 'out'
         },
         legend: 'none',
-        // hAxis: {
-        //   textPosition: 'none',
-        //   gridlines: {
-        //     count: 0
-        //   }
-        // }
+        hAxis: {
+          textPosition: 'none',
+          gridlines: {
+            count: 0
+          }
+        }
       };
       chart.draw(data, options);
     }
