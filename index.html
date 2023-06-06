@@ -11,8 +11,13 @@
   <style>
     /* Custom CSS styles */
     #deliveries_chart_div rect {
-      rx: 3px; 
-      ry: 3px; 
+      rx: 3px;
+      ry: 3px;
+    }
+
+    text.annotation-text {
+      text-anchor: start !important;
+      /* Align the text to the left */
     }
   </style>
   <script type="text/javascript">
@@ -33,6 +38,15 @@
       }
       var data = response.getDataTable();
 
+      // Add a new column to hold the data value labels
+      data.addColumn({ type: 'string', role: 'annotation' });
+
+      // Loop through the data and populate the annotation column with the data values
+      for (var i = 0; i < data.getNumberOfRows(); i++) {
+        var value = data.getValue(i, 1); // Assuming the data values are in the second column
+        data.setValue(i, 2, value.toString()); // Set the value as a string in the annotation column
+      }
+
       var chart = new google.visualization.BarChart(document.getElementById('deliveries_chart_div'));
       var options = {
         animation: {
@@ -49,21 +63,16 @@
           baselineColor: 'none', // Set axis line color to none
           baselineWidth: 0 // Set axis line width to 0
         },
-        legend: { position: 'none' },
         bars: 'horizontal', // Required for Material Bar Charts.
-        axes: {
-          baselineColor: 'none', // Set axis line color to none
-          baselineWidth: 0 // Set axis line width to 0
-        },
-        bar: { groupWidth: "85%" },
         series: {
-          0: { color: '#3C88F4' } 
+          0: { color: '#3C88F4' }
         },
         annotations: {
           textStyle: {
             color: '#ffffff', // Label text color
             fontName: 'Arial',
-            fontSize: 12
+            fontSize: 14,
+            bold: true,
           },
           annotationText: 'value', // Display the value of each data point
           annotationRole: 'annotation' // Use the 'annotation' role for displaying values
@@ -71,6 +80,7 @@
       };
       chart.draw(data, options);
     }
+
   </script>
 </head>
 
